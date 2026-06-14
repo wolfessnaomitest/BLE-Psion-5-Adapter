@@ -32,6 +32,7 @@ python ~/.platformio/packages/framework-arduinoadafruitnrf52/tools/uf2conv/uf2co
 
 - [Original USB Keyboard Adapter](https://github.com/RasmusB/USB-Keyboard-Adapter)
 - [NiceNano V2 Documentation](https://nicekeyboards.com/)
-- [Arduino Keyboard Library](https://github.com/arduino-libraries/Keyboard)
+- [Adafruit TinyUSB](https://github.com/adafruit/Adafruit_TinyUSB_Arduino)
+- [Adafruit nRFCrypto](https://github.com/adafruit/Adafruit_nRFCrypto)
 - [nrf52840 Datasheet](https://infocenter.nordicsemi.com/pdf/nRF52840_PS_v2.0.pdf)
 
