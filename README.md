@@ -21,6 +21,7 @@ python ~/.platformio/packages/framework-arduinoadafruitnrf52/tools/uf2conv/uf2co
 
 Scan_Pinout Firmware
 
+cd scan_pinout
 pio run -e scan_pinout  
 
 HEX=$(find .pio/build/scan_pinout -name '*.hex' | head -n1)
