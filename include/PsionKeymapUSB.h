@@ -67,12 +67,12 @@
 #define HID_KEY_LBRACKET   0x2F
 #define HID_KEY_RBRACKET   0x30
 #define HID_KEY_BACKSLASH  0x31
-#define HID_KEY_SEMICOLON  0x33
 #define HID_KEY_QUOTE      0x34
 #define HID_KEY_BACKTICK   0x35
 #define HID_KEY_COMMA      0x36
 #define HID_KEY_PERIOD     0x37
 #define HID_KEY_SLASH      0x38
+
 
 // Arrow keys
 #define HID_KEY_RIGHT      0x4F
@@ -82,15 +82,27 @@
 
 // Additional keys
 #define HID_KEY_CAPS_LOCK  0x39
-#define HID_KEY_SEMICOLON  0x33
+#define HID_KEY_SEMICOLON  0x33 
 
 // Modifier keys (used with modifier byte)
 #define HID_MOD_LCTRL      0x01
 #define HID_MOD_LSHIFT     0x02
 #define HID_MOD_LALT       0x04
+#define HID_MOD_LGUI       0x08
 #define HID_MOD_RCTRL      0x10
 #define HID_MOD_RSHIFT     0x20
 #define HID_MOD_RALT       0x40
+
+typedef struct {
+  uint8_t code;
+  uint8_t modifier;
+} KeyAction;
+
+// Additional page/navigation keys
+#define HID_KEY_PAGE_UP    0x4B
+#define HID_KEY_PAGE_DOWN  0x4E
+#define HID_KEY_HOME       0x4A
+#define HID_KEY_END        0x4D
 
 // Simplified key definitions (can be ASCII characters or HID codes)
 #define KEY_A              HID_KEY_A
@@ -137,7 +149,6 @@
 #define KEY_BACKSPACE      HID_KEY_BACKSPACE
 #define KEY_TAB            HID_KEY_TAB
 #define KEY_SPACE          HID_KEY_SPACE
-#define KEY_APOSTROPHE     HID_KEY_QUOTE
 #define KEY_COMMA          HID_KEY_COMMA
 #define KEY_PERIOD         HID_KEY_PERIOD
 
@@ -157,7 +168,7 @@
 #define KEY_LSHIFT         0xE1            // HID Usage: Left Shift
 #define KEY_RSHIFT         0xE5            // HID Usage: Right Shift
 #define KEY_MENU           0xE2            // HID Usage: Left Alt
-#define KEY_FN             0xE6            // HID Usage: Right Alt
+#define KEY_FN             0xE6            // FN we ignore this from previous testing in HID report, used only for layer switching now
 
 // Key scancode matrix for Psion 5/5mx keyboard
 // 8 rows x 12 columns
@@ -173,7 +184,7 @@ static const uint8_t keyScancode[NROWS][NCOLS] = {
   { KEY_Z,         KEY_X,        KEY_C,         KEY_V,          KEY_B,         KEY_N,         0,             KEY_RSHIFT,  0,      0,        0,      0 },
   
   // Row 2 (ROW_03): h, j, k, m, period, down, fn
-  { KEY_H,         KEY_J,        KEY_K,         KEY_M,          KEY_PERIOD,    KEY_DOWN,      0,             0,           0,      0,        0,      0 },
+  { KEY_H,         KEY_J,        KEY_K,         KEY_M,          KEY_PERIOD,    KEY_DOWN,      0,             0,           KEY_FN,      0,        0,      0 },
   
   // Row 3 (ROW_04): caps, a, s, d, f, g, control
   { KEY_CAPS_LOCK, KEY_A,        KEY_S,         KEY_D,          KEY_F,         KEY_G,         0,             0,           0,      0,        0,      KEY_CTRL },
@@ -189,6 +200,97 @@ static const uint8_t keyScancode[NROWS][NCOLS] = {
   
   // Row 7 (ROW_08): 7, 8, 9, 0, del, colon
   { KEY_7,         KEY_8,        KEY_9,         KEY_0,          KEY_DEL,       KEY_COLON,     0,             0,           0,      0,        0,      0 }
+};
+
+// FN-layer HID keycodes (customize to assign FN1-12 and other macros)
+// By default this maps the numeric keys on ROW_05 (1-6) and ROW_08 (7-0, DEL, COLON)
+// to F1-F12 when FN is held. Set entries to 0 to leave keys unchanged.
+// F1-F12 HID Usage IDs: 0x3A - 0x45
+#define HID_KEY_F1         0x3A
+#define HID_KEY_F2         0x3B
+#define HID_KEY_F3         0x3C
+#define HID_KEY_F4         0x3D
+#define HID_KEY_F5         0x3E
+#define HID_KEY_F6         0x3F
+#define HID_KEY_F7         0x40
+#define HID_KEY_F8         0x41
+#define HID_KEY_F9         0x42
+#define HID_KEY_F10        0x43
+#define HID_KEY_F11        0x44
+#define HID_KEY_F12        0x45
+
+// Convenience names
+#define KEY_F1             HID_KEY_F1
+#define KEY_F2             HID_KEY_F2
+#define KEY_F3             HID_KEY_F3
+#define KEY_F4             HID_KEY_F4
+#define KEY_F5             HID_KEY_F5
+#define KEY_F6             HID_KEY_F6
+#define KEY_F7             HID_KEY_F7
+#define KEY_F8             HID_KEY_F8
+#define KEY_F9             HID_KEY_F9
+#define KEY_F10            HID_KEY_F10
+#define KEY_F11            HID_KEY_F11
+#define KEY_F12            HID_KEY_F12
+
+static const uint8_t fnKeyScancode[NROWS][NCOLS] = {
+  // Row 0
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 1
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 2
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 3
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 4 (1-6 -> F1-F6)
+  { KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, 0, 0, 0, 0, 0, 0 },
+  // Row 5
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 6
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 7 (7,8,9,0,DEL,COLON -> F7-F12)
+  { KEY_F7, KEY_F8, KEY_F9, KEY_F10, KEY_F11, KEY_F12, 0, 0, 0, 0, 0, 0 }
+};
+
+// Alternate FN-layer when Shift is also held (useful for extra F-keys on limited matrices)
+// Map FN+Shift+1 -> F11 and FN+Shift+2 -> F12 by default. Adjust as needed.
+static const uint8_t fnKeyScancodeShifted[NROWS][NCOLS] = {
+  // Row 0
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 1
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 2
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 3
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 4 (map 1->F11, 2->F12 for FN+Shift)
+  { KEY_F11, KEY_F12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 5
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 6
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  // Row 7
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+};
+
+// FN+Menu layer for special legends (Menu by itself remains LAlt)
+static const KeyAction fnMenuKeyScancode[NROWS][NCOLS] = {
+  // Row 0
+  { { 0, 0 }, { 0, 0 }, { HID_KEY_PAGE_UP, 0 }, { 0, 0 }, { HID_KEY_HOME, 0 }, { HID_KEY_END, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } },
+  // Row 1
+  { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } },
+  // Row 2
+  { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { HID_KEY_PAGE_DOWN, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } },
+  // Row 3
+  { { HID_KEY_TAB, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } },
+  // Row 4 (1->_, 2=~, 3=\, 4=/, 5=<, 6=>)
+  { { HID_KEY_MINUS, HID_MOD_LSHIFT }, { HID_KEY_BACKTICK, HID_MOD_LSHIFT }, { HID_KEY_BACKSLASH, 0 }, { HID_KEY_SLASH, 0 }, { HID_KEY_COMMA, HID_MOD_LSHIFT }, { HID_KEY_PERIOD, HID_MOD_LSHIFT }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } },
+  // Row 5 (i=+, o=-, p==)
+  { { 0, 0 }, { HID_KEY_EQUAL, HID_MOD_LSHIFT }, { HID_KEY_MINUS, 0 }, { HID_KEY_EQUAL, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } },
+  // Row 6
+  { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } },
+  // Row 7 (7=[, 8=], 9={, 0=}, colon=;)
+  { { HID_KEY_LBRACKET, 0 }, { HID_KEY_RBRACKET, 0 }, { HID_KEY_LBRACKET, HID_MOD_LSHIFT }, { HID_KEY_RBRACKET, HID_MOD_LSHIFT }, { 0, 0 }, { HID_KEY_SEMICOLON, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } }
 };
 
 #endif // PSION_KEYMAP_USB_H
