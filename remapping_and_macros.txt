@@ -9,7 +9,7 @@ Shift + . to '
  
 Shift + , to ?
 
-menu key by itself = Lalt as previously described
+menu key by itself = Lalt
 
 FN + menu + "special legends" resolves to the following
 
