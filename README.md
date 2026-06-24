@@ -38,7 +38,7 @@ python ~/.platformio/packages/framework-arduinoadafruitnrf52/tools/uf2conv/uf2co
 - [Adafruit nRFCrypto](https://github.com/adafruit/Adafruit_nRFCrypto)
 - [nrf52840 Datasheet](https://infocenter.nordicsemi.com/pdf/nRF52840_PS_v2.0.pdf)
 
-  ## I dont really know how github works very well here are some useless uncompressed images of my build that prob don't load
+  ## I dont really know how github works very well but hey here is some useless uncompressed images of my build
 
   <img src="https://github.com/wolfessnaomitest/BLE-Psion-5-Adapter/blob/master/IMG_20260622_143010299.jpg">
   <img src="https://github.com/wolfessnaomitest/BLE-Psion-5-Adapter/blob/master/IMG_20260622_140712224.jpg">
