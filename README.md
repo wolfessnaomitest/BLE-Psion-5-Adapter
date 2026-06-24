@@ -4,24 +4,30 @@ An NRF52840 based keyboard controller. This was designed for use with a Psion Se
 
 Keyboard Firmware
 
+```
 pio run -e adafruit_feather_nrf52840
+```
 
 Build a UF2 --this one liner is very hacky and may break ahaha
- 
+
+``` 
 HEX=$(find .pio/build -name '*.hex' | head -n1)
 python ~/.platformio/packages/framework-arduinoadafruitnrf52/tools/uf2conv/uf2conv.py \
   -f 0xADA52840 -c -o .pio/build/adafruit_feather_nrf52840/firmware.uf2 "$HEX"
-
+```
 
 Scan_Pinout Firmware
 
+```
 cd scan_pinout
+pio run -escan_pinout
+```
 
-pio run -escan_pinout  
-
+```
 HEX=$(find .pio/build/scan_pinout -name '*.hex' | head -n1)
 python ~/.platformio/packages/framework-arduinoadafruitnrf52/tools/uf2conv/uf2conv.py \
   -f 0xADA52840 -c -o .pio/build/scan_pinout/firmware.uf2 "$HEX"
+```
 
 
 ## References
