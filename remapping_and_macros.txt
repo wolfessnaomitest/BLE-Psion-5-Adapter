@@ -1,0 +1,38 @@
+Ctrl + FN allows access to F11 and F12 by proxy of keys 1 and 2
+
+; unshifted semicolon to shifted colon :
+
+intercept shift from report and resolve sending only these keycodes
+Shift + : to " ie shift plus our shifted colon is unshifted colon ;
+
+Shift + . to '
+ 
+Shift + , to ?
+
+menu key by itself = Lalt as previously described
+
+FN + menu + "special legends" resolves to the following
+
+Special Legends:
+
+1   _
+2   ~
+3   \
+4   /
+5   <
+6   >
+7   [
+8   ]
+9   {
+0   }
+caps lock   tab
+y   times symbol ignore 
+u   division symbol ignore
+i   + 
+o   - 
+p   = 
+:   ;
+up  page up
+down    page down
+left    home
+right   end
