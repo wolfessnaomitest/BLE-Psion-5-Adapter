@@ -170,7 +170,7 @@ typedef struct {
 #define KEY_MENU           0xE2            // HID Usage: Left Alt
 #define KEY_FN             0xE6            // FN we ignore this from previous testing in HID report, used only for layer switching now
 
-// Key scancode matrix for Psion 5/5mx keyboard
+
 // 8 rows x 12 columns
 // Indexed by [row_index][col_index] where:
 //   row_index: 0=ROW_01, 1=ROW_02, 2=ROW_03, 3=ROW_04, 4=ROW_05, 5=ROW_06, 6=ROW_07, 7=ROW_08
@@ -202,10 +202,7 @@ static const uint8_t keyScancode[NROWS][NCOLS] = {
   { KEY_7,         KEY_8,        KEY_9,         KEY_0,          KEY_DEL,       KEY_COLON,     0,             0,           0,      0,        0,      0 }
 };
 
-// FN-layer HID keycodes (customize to assign FN1-12 and other macros)
-// By default this maps the numeric keys on ROW_05 (1-6) and ROW_08 (7-0, DEL, COLON)
-// to F1-F12 when FN is held. Set entries to 0 to leave keys unchanged.
-// F1-F12 HID Usage IDs: 0x3A - 0x45
+// FN-layer HID keycodes
 #define HID_KEY_F1         0x3A
 #define HID_KEY_F2         0x3B
 #define HID_KEY_F3         0x3C
@@ -253,7 +250,6 @@ static const uint8_t fnKeyScancode[NROWS][NCOLS] = {
 };
 
 // Alternate FN-layer when Shift is also held (useful for extra F-keys on limited matrices)
-// Map FN+Shift+1 -> F11 and FN+Shift+2 -> F12 by default. Adjust as needed.
 static const uint8_t fnKeyScancodeShifted[NROWS][NCOLS] = {
   // Row 0
   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
