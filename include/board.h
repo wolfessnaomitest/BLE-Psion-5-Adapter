@@ -63,4 +63,7 @@ static const char* ColNames[NCOLS] = {
 // Status LED
 #define LED_STATUS LED_BUILTIN
 
+// Caps Lock indicator LED
+#define LED_CAPS_LOCK D18
+
 #endif // BOARD_H
