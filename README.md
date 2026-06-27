@@ -6,7 +6,7 @@ The way i build for NiceNanoV2/nrf52ProMicro in platformIO because ive not found
 
 Add nice_nano variant folder from [Arduino Core I Found](https://github.com/selimmeric/Adafruit_nRF52_Arduino_Nice-NanoV2) with its contents to /home/$user/.platformio/packages/framework-arduinoadafruitnrf52/variants/ Paying some attention to the platform.ini file may make this part make sense.
 
-Then with the project setup in for 'adafruit feather nrf52840 express'
+Then with the project setup for 'adafruit feather nrf52840 express'
 
 Keyboard Firmware
 ```
